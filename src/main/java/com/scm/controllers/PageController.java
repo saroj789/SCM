@@ -1,18 +1,28 @@
 package com.scm.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
+import com.scm.entities.User;
+import com.scm.forms.UserForm;
+import com.scm.services.UserService;
 
 @Controller
 public class PageController {
-	
-	
+
+	@Autowired
+	private UserService userService;
+
 	@RequestMapping(path = "/")
 	public String home(Model m) {
-		m.addAttribute("name", "test");
-		m.addAttribute("gitlink", "abc.html");
 		return "home";
 	}
 
@@ -20,7 +30,7 @@ public class PageController {
 	public String about() {
 		return "about";
 	}
-	
+
 	@RequestMapping(path = "/service")
 	public String service() {
 		return "service";
@@ -32,7 +42,9 @@ public class PageController {
 	}
 
 	@GetMapping(path = "/signup")
-	public String signup() {
+	public String signup(Model model) {
+		UserForm userForm = new UserForm();
+		model.addAttribute("userForm", userForm);
 		return "signup";
 	}
 
@@ -41,5 +53,25 @@ public class PageController {
 		return "login";
 	}
 
+	@RequestMapping(value = "/do-register", method = RequestMethod.POST)
+	public String ProcessRegister(@ModelAttribute UserForm userForm) {
+		// fetch form data
+		User user = new User();
+
+		System.out.println("userForm  " + userForm);
+		user.setAbout(userForm.getAbout());
+		user.setEmail(userForm.getEmail());
+		user.setName(userForm.getName());
+		user.setPassword(userForm.getPassword());
+		user.setPhoneNumber(userForm.getPhoneNumber());
+
+		// validate form data
+		// save to db
+		// message= "registration successfull"
+		// redirect to login
+		User savedUser = userService.saveUser(user);
+		System.out.println("user : " + savedUser);
+		return "redirect:/signup";
+	}
 
 }

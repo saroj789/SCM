@@ -3,11 +3,13 @@ onload()
 function onload(){
     var themeBtn = document.getElementById("theme_change_btn");
     themeBtn.addEventListener("click", changeTheme );
+    var theme = getTheme()=="dark" ? "light" : "dark" ;
+    setTheme(theme)
+    changeTheme()
 }
 
 function changeTheme() {
-    console.log("guuuu");
-    let currTheme= getTheme();
+   let currTheme= getTheme();
     let newTheme = currTheme=="dark" ? "light" : "dark" ;
     document.querySelector("html").classList.remove(currTheme);
     document.querySelector("html").classList.add(newTheme);
