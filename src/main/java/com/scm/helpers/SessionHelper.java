@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpSession;
 @Component
 public class SessionHelper {
 
+    @SuppressWarnings("null")
     public static void removeMessage() {
         try {
             HttpSession session = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
