@@ -1,19 +1,23 @@
 package com.scm.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.BindResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.scm.entities.User;
 import com.scm.forms.UserForm;
+import com.scm.helpers.Message;
+import com.scm.helpers.MessageType;
 import com.scm.services.UserService;
+
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @Controller
 public class PageController {
@@ -54,22 +58,34 @@ public class PageController {
 	}
 
 	@RequestMapping(value = "/do-register", method = RequestMethod.POST)
-	public String ProcessRegister(@ModelAttribute UserForm userForm) {
+	public String ProcessRegister(@Valid @ModelAttribute UserForm userForm, BindingResult bindingResult,
+			HttpSession httpSession) {
+		System.out.println("userForm  " + userForm);
+
+		if (bindingResult.hasErrors()) {
+			System.err.println("invalid form");
+			return "signup";
+		}
+
 		// fetch form data
 		User user = new User();
-
-		System.out.println("userForm  " + userForm);
 		user.setAbout(userForm.getAbout());
 		user.setEmail(userForm.getEmail());
 		user.setName(userForm.getName());
 		user.setPassword(userForm.getPassword());
 		user.setPhoneNumber(userForm.getPhoneNumber());
+		user.setProfilePic("https://avatar.iran.liara.run/public");
 
 		// validate form data
 		// save to db
-		// message= "registration successfull"
-		// redirect to login
 		User savedUser = userService.saveUser(user);
+
+		// message set
+		// message= "registration successfull"
+		Message message = Message.builder().content("registration successfull").type(MessageType.green).build();
+		httpSession.setAttribute("message", message);
+
+		// redirect to login
 		System.out.println("user : " + savedUser);
 		return "redirect:/signup";
 	}

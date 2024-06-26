@@ -18,20 +18,30 @@
 					<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
 						Signup Here
 					</h5>
+
+					<!-- meessage -->
+					<div th:replace= "~{message :: messageBox }"></div>
+
 					<p class="font-normal text-gray-400 dark:text-gray-400">
 						Start managing contacts on cloud ...
 					</p>
 
 					<form data-th-action="${'/do-register'}" method="post" 
-					  data-th-object="${userForm}"	
+					  data-th-object="${userForm}"
+					  novalidate	
 					>
-						<form class="max-w-sm mx-auto">
+						<!-- <form class="max-w-sm mx-auto"> -->
 							<div class="mb-3">
 								<label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"> Name</label>
 								<input type="text" id="name"
 									data-th-field="*{name}"
 									class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 									placeholder="name@flowbite.com" required />
+								<p 
+									data-th-if= "${#fields.hasErrors('name')}"
+									data-th-errors="*{name}"
+									class="text-red-600 px-1 py-2"
+								></p>
 							</div>
 
 							<div class="mb-3">
@@ -40,6 +50,11 @@
 									data-th-field="*{email}"
 									class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 									placeholder="name@flowbite.com" required />
+								<p 
+									data-th-if= "${#fields.hasErrors('email')}"
+									data-th-errors="*{email}"
+									class="text-red-600 px-1 py-2"
+								></p>
 							</div>
 							<div class="mb-3">
 								<label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
@@ -48,6 +63,11 @@
 									data-th-field="*{password}"
 									class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 									required />
+								<p 
+									data-th-if= "${#fields.hasErrors('password')}"
+									data-th-errors="*{password}"
+									class="text-red-600 px-1 py-2"
+								></p>
 							</div>
 							<div class="mb-3">
 								<label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contact
@@ -56,6 +76,11 @@
 									data-th-field="*{phoneNumber}"
 									class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 									required />
+								<p 
+									data-th-if= "${#fields.hasErrors('phoneNumber')}"
+									data-th-errors="*{phoneNumber}"
+									class="text-red-600 px-1 py-2"
+								></p>
 							</div>
 
 							<div class="mb-3">
@@ -64,6 +89,11 @@
 								<textarea id="about" rows="4"
 									data-th-field="*{about}"
 									class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"> </textarea>
+								<p 
+									data-th-if= "${#fields.hasErrors('about')}"
+									data-th-errors="*{about}"
+									class="text-red-600 px-1 py-2"
+								></p>
 							</div>
 
 
@@ -74,14 +104,14 @@
 									class="text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-blue-800">Reset</button>
 							</div>
 
-						</form>
+						<!-- </form> -->
 				</div>
 			</div>
 			<div class="col-span-4 md:col-span-2 lg:col-span-3 xl:col-span-4"></div>
 		</div>
 
-
 	</div>
+	<span data-th-value="${httpSession.setAttribute('message', '')}"></span>
 
 	<script>
 		console.log("Signup Page");
