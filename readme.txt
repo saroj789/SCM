@@ -12,4 +12,17 @@ tailwindcss
      <link rel="stylesheet" data-th-href="@{'css/output.css'}"/> in your html
 
 add Failwind CSS component library
+
+
+## form spring security
+add dependancy
+create securityconfig(@Configuration) classes
+create authenticationProvider method bean.
+use DaoAuthenticationProvider object and setPasswordEncoder and setUserDetailsService,
+To setPasswordEncoder create passwordEncoder method bean which returns BCryptPasswordEncoder object.
+to setUserDetailsService, User implements UserDetails and override methods.
+then create customUserdetaiService (@Service) which  implements implements UserDetailsService and override loadUserByUsername method (@bean)
+this method will return UserDetails object.
+
+autowired customUserdetaiService in securityconfig and pass to setUserDetailsService in daoAuthenticationProvider method
         
