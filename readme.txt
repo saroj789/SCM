@@ -25,4 +25,9 @@ then create customUserdetaiService (@Service) which  implements implements UserD
 this method will return UserDetails object.
 
 autowired customUserdetaiService in securityconfig and pass to setUserDetailsService in daoAuthenticationProvider method
+ BUT we are not able to access pages without login.
+
+
+ So for access some pages without login we have to create securityFilterChain bean.
+ In securityFilterChain bean you can restrict, permit and config login logout page.
         

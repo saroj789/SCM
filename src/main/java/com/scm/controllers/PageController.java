@@ -24,7 +24,12 @@ public class PageController {
 	@Autowired
 	private UserService userService;
 
-	@RequestMapping(path = "/")
+	@RequestMapping()
+	public String index(Model m) {
+		return "redirect:/home";
+	}
+
+	@RequestMapping(path = "/home")
 	public String home(Model m) {
 		return "home";
 	}
@@ -63,6 +68,8 @@ public class PageController {
 
 		if (bindingResult.hasErrors()) {
 			System.err.println("invalid form");
+			Message message = Message.builder().content("Failed").type(MessageType.orange).build();
+			httpSession.setAttribute("message", message);
 			return "signup";
 		}
 
