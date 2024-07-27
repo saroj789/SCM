@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.DefaultSecurityFilterChain;
@@ -45,8 +46,33 @@ public class SecurityConfig {
             authorize.anyRequest().permitAll();
         });
 
+        
+       // for custom login form
+        httpSecurity.formLogin( formLogin -> {
+        	formLogin.loginPage("/login");
+        	formLogin.loginProcessingUrl("/authenticate");
+        	formLogin.successForwardUrl("/user/dashboard");
+//        	formLogin.failureForwardUrl("/login?error=true");
+        	formLogin.usernameParameter("email");
+        	formLogin.passwordParameter("password");
+        } );
+        
+        
+        
+       // Required to hit get request on logout url otherwise need to sent post request on logout url
+        httpSecurity.csrf( AbstractHttpConfigurer::disable) ;
+        
+        httpSecurity.logout(logoutForm -> {
+        	logoutForm.logoutUrl("/do-logout");
+        	logoutForm.logoutSuccessUrl("/login?logout=true");
+        });
+        
+        
+        
+        
+        
         // for default login page of spring boot
-        httpSecurity.formLogin(Customizer.withDefaults());
+        //httpSecurity.formLogin(Customizer.withDefaults());
 
         // implplementation of SecurityFilterChain
         DefaultSecurityFilterChain defaultSecurityFilterChain = httpSecurity.build();
