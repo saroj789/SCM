@@ -18,6 +18,9 @@ public class SecurityConfig {
 
     @Autowired
     private CustomUserDetailsDervice userDetailsDervice;
+    
+    @Autowired
+    private OAuthAuthenticationSuccessHandle oauthHandler;
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
@@ -74,6 +77,20 @@ public class SecurityConfig {
         // for default login page of spring boot
         //httpSecurity.formLogin(Customizer.withDefaults());
 
+        
+        //oauth default login
+        //httpSecurity.oauth2Login(Customizer.withDefaults());
+        
+      //oauth custom login
+        httpSecurity.oauth2Login(oauth ->{
+        	oauth.loginPage("/login");
+        	oauth.successHandler(oauthHandler);
+        });
+        
+        
+        
+        
+        
         // implplementation of SecurityFilterChain
         DefaultSecurityFilterChain defaultSecurityFilterChain = httpSecurity.build();
         return defaultSecurityFilterChain;

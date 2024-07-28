@@ -30,4 +30,37 @@ autowired customUserdetaiService in securityconfig and pass to setUserDetailsSer
 
  So for access some pages without login we have to create securityFilterChain bean.
  In securityFilterChain bean you can restrict, permit and config login logout page.
+ 
+ You can manage login and logout page/url using httpSecuty in securityFilterChain
+ 
+ 
+ 
+ ## google OAuth2 
+ 
+ Add oauth2 dependancy 
+ create project on google cloud conslole
+ 	OAuth consent screen
+ 	create Credentials (OAuth2 client id)
+ 	get secret key and and client id
+ 	
+ add oauth2 configureation in aplication.properties
+ 	spring.security.oauth2.client.registration.google.client-name=google
+	spring.security.oauth2.client.registration.google.client-id=
+	spring.security.oauth2.client.registration.google.client-secret=
+	spring.security.oauth2.client.registration.google.scope=email,profile
+	
+Add oauth2 configureation in securityconfig file
+	httpSecurity.oauth2Login(oauth ->{
+        	oauth.loginPage("/login");
+        	oauth.successHandler(oauthHandler);
+        });
+        
+Also create successhandler class
+ 
+whene you are using httpSecurity.oauth2Login(Customizer.withDefaults()))
+where you can get link of google login.
+You can use this login link on your login.html
+ 
+On successhandler class, you are geeting data of user,you can save this in DB.
+ 
         

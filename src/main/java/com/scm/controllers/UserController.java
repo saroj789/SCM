@@ -12,5 +12,11 @@ public class UserController {
         System.out.println("User dashboard");
         return "user/dashboard";
     }
+	
+	@RequestMapping(value = "/profile")
+    public String profile() {
+        System.out.println("User profile");
+        return "user/profile";
+    }
 
 }
