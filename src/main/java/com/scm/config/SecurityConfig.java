@@ -20,7 +20,7 @@ public class SecurityConfig {
     private CustomUserDetailsDervice userDetailsDervice;
     
     @Autowired
-    private OAuthAuthenticationSuccessHandle oauthHandler;
+    private OAuthAuthenticationSuccessHandler oauthHandler;
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
